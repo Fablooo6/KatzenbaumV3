@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Katzenbaum – Das Projekt</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0a0a08;
+  --bg2:#111110;
+  --bg3:#1a1916;
+  --card:#1e1c19;
+  --white:#f5f2ec;
+  --muted:#8a8680;
+  --accent:#d4622a;
+  --accent2:#f0a060;
+  --green:#4a7a40;
+  --green2:#7db86e;
+  --line:rgba(245,242,236,.07);
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:'DM Sans',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.035;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 2.5rem;
+  background:rgba(10,10,8,.8);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.5rem;letter-spacing:.06em;
+  color:var(--white);
+}
+.nav-logo span{color:var(--accent);}
+.nav-badge{
+  font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--line);
+  padding:.3rem .8rem;border-radius:2rem;
+}
+
+/* ── SECTIONS ── */
+section{position:relative;z-index:1;}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:7rem 2rem 4rem;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+/* radial glow behind tree */
+.hero::before{
+  content:'';
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(212,98,42,.13) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--accent2);margin-bottom:1.2rem;
+  opacity:0;animation:fadeUp .6s .1s forwards;
+}
+.hero-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.5rem,12vw,9rem);
+  line-height:.92;
+  letter-spacing:.03em;
+  color:var(--white);
+  opacity:0;animation:fadeUp .7s .25s forwards;
+}
+.hero-title .accent{color:var(--accent);}
+.hero-title .stroke{
+  -webkit-text-stroke:2px var(--white);
+  color:transparent;
+}
+.hero-sub{
+  margin-top:1.4rem;
+  font-size:1.05rem;line-height:1.75;color:var(--muted);
+  max-width:38ch;
+  opacity:0;animation:fadeUp .6s .4s forwards;
+}
+
+/* ── ANIMATED CAT TREE ── */
+.cattree-hero{
+  position:relative;
+  margin:2.5rem 0 2rem;
+  opacity:0;animation:fadeIn .9s .55s forwards;
+}
+.cattree-hero svg{
+  width:min(260px,70vw);
+  filter:drop-shadow(0 0 40px rgba(212,98,42,.25)) drop-shadow(0 30px 60px rgba(0,0,0,.6));
+  transform-origin:center bottom;
+  animation:treeSway 5s ease-in-out infinite;
+}
+@keyframes treeSway{
+  0%,100%{transform:rotate(0deg);}
+  30%{transform:rotate(1.2deg) translateX(3px);}
+  70%{transform:rotate(-1.2deg) translateX(-3px);}
+}
+.cat-group{animation:catFloat 3.5s ease-in-out infinite;}
+@keyframes catFloat{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-6px);}
+}
+.cat-tail{transform-origin:192px 88px;animation:tailWag 1.8s ease-in-out infinite;}
+@keyframes tailWag{
+  0%,100%{transform:rotate(0deg);}
+  35%{transform:rotate(20deg);}
+  65%{transform:rotate(-12deg);}
+}
+.cat-pupil-l{animation:blink 4.5s .4s infinite;}
+.cat-pupil-r{animation:blink 4.5s .7s infinite;}
+@keyframes blink{0%,92%,100%{ry:3.5;}95%,97%{ry:.3;}}
+.toy-l{transform-origin:100px 308px;animation:swingL 2.4s ease-in-out infinite;}
+.toy-r{transform-origin:240px 308px;animation:swingR 2.4s .4s ease-in-out infinite;}
+@keyframes swingL{0%,100%{transform:rotate(0);}45%{transform:rotate(16deg);}75%{transform:rotate(-9deg);}}
+@keyframes swingR{0%,100%{transform:rotate(0);}45%{transform:rotate(-14deg);}75%{transform:rotate(8deg);}}
+.sparkle{animation:spark 3s ease-in-out infinite;}
+.s1{animation-delay:0s;}.s2{animation-delay:1.1s;}.s3{animation-delay:2.2s;}
+@keyframes spark{
+  0%,100%{opacity:0;transform:scale(.4);}
+  40%,60%{opacity:1;transform:scale(1.3);}
+}
+
+/* glow ring under tree */
+.tree-glow{
+  position:absolute;bottom:-10px;left:50%;
+  transform:translateX(-50%);
+  width:200px;height:30px;
+  background:radial-gradient(ellipse,rgba(212,98,42,.35) 0%,transparent 70%);
+  border-radius:50%;
+  animation:glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse{0%,100%{opacity:.6;transform:translateX(-50%) scaleX(1);}50%{opacity:1;transform:translateX(-50%) scaleX(1.15);}}
+
+.hero-cta{
+  display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:fadeUp .6s .7s forwards;
+}
+.btn{
+  display:inline-block;padding:.9rem 2.2rem;border-radius:.4rem;
+  font-size:.88rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  text-decoration:none;cursor:pointer;border:none;
+  transition:transform .2s,box-shadow .2s,filter .2s;
+}
+.btn:hover{transform:translateY(-3px);}
+.btn-primary{
+  background:var(--accent);color:var(--white);
+  box-shadow:0 0 30px rgba(212,98,42,.4);
+}
+.btn-primary:hover{box-shadow:0 0 50px rgba(212,98,42,.6);filter:brightness(1.1);}
+.btn-ghost{
+  background:transparent;color:var(--white);
+  border:1.5px solid rgba(245,242,236,.2);
+}
+.btn-ghost:hover{border-color:var(--white);}
+
+/* scroll hint */
+.scroll-hint{
+  margin-top:3rem;font-size:.72rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;gap:.6rem;
+  opacity:0;animation:fadeIn 1s 1.2s forwards;
+}
+.scroll-arrow{
+  width:24px;height:24px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+  transform:rotate(45deg);
+  animation:bounce .9s ease-in-out infinite alternate;
+}
+@keyframes bounce{from{transform:rotate(45deg) translateY(-3px);}to{transform:rotate(45deg) translateY(3px);}}
+
+/* ── PROBLEM SECTION ── */
+.problem{
+  padding:6rem 2rem;
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  text-align:center;
+}
+.section-tag{
+  display:inline-block;
+  font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(212,98,42,.3);
+  padding:.3rem .9rem;border-radius:2rem;margin-bottom:1.5rem;
+}
+.section-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.5rem,6vw,5rem);
+  line-height:1;letter-spacing:.04em;
+  color:var(--white);margin-bottom:1.5rem;
+}
+.problem-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.5rem;max-width:800px;margin:3rem auto 0;
+}
+.problem-card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:.6rem;padding:2rem 1.5rem;
+  text-align:left;
+  transition:border-color .2s,transform .2s;
+}
+.problem-card:hover{border-color:rgba(212,98,42,.3);transform:translateY(-4px);}
+.problem-icon{font-size:1.8rem;margin-bottom:1rem;}
+.problem-card h3{font-size:1rem;font-weight:600;color:var(--white);margin-bottom:.5rem;}
+.problem-card p{font-size:.88rem;line-height:1.7;color:var(--muted);}
+
+/* ── SOLUTION ── */
+.solution{padding:6rem 2rem;text-align:center;}
+.steps{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1px;max-width:900px;margin:3.5rem auto 0;
+  background:var(--line);border:1px solid var(--line);border-radius:.8rem;overflow:hidden;
+}
+.step{
+  background:var(--bg2);padding:2.5rem 2rem;
+  position:relative;
+  transition:background .2s;
+}
+.step:hover{background:var(--card);}
+.step-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:4rem;color:rgba(212,98,42,.15);
+  line-height:1;margin-bottom:.8rem;
+}
+.step h3{font-size:1.05rem;font-weight:600;color:var(--white);margin-bottom:.6rem;}
+.step p{font-size:.88rem;line-height:1.7;color:var(--muted);}
+.step-dot{
+  position:absolute;top:2rem;right:2rem;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--accent);
+}
+
+/* ── DEMO / PREVIEW ── */
+.demo{
+  padding:6rem 2rem;
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  text-align:center;
+}
+.demo-screen{
+  max-width:700px;margin:3rem auto 0;
+  background:var(--bg3);border:1px solid var(--line);
+  border-radius:1rem;overflow:hidden;
+  box-shadow:0 40px 80px rgba(0,0,0,.6);
+}
+.demo-topbar{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.9rem 1.2rem;border-bottom:1px solid var(--line);
+}
+.demo-dot{width:11px;height:11px;border-radius:50%;}
+.demo-dot.r{background:#ff5f57;}.demo-dot.y{background:#febc2e;}.demo-dot.g{background:#28c840;}
+.demo-url{
+  flex:1;background:var(--card);border-radius:.3rem;
+  padding:.3rem .8rem;font-size:.75rem;color:var(--muted);text-align:left;
+}
+.demo-body{padding:2rem;}
+.demo-week-list{display:flex;flex-direction:column;gap:.8rem;}
+.demo-week-item{
+  background:var(--card);border:1px solid var(--line);border-radius:.5rem;
+  padding:1rem 1.2rem;display:flex;align-items:center;gap:1rem;
+  text-align:left;transition:border-color .2s;
+}
+.demo-week-item:hover{border-color:rgba(212,98,42,.4);}
+.demo-week-badge{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.4rem;color:var(--accent);flex-shrink:0;
+}
+.demo-week-info h4{font-size:.92rem;font-weight:500;color:var(--white);margin-bottom:.2rem;}
+.demo-week-info p{font-size:.78rem;color:var(--muted);}
+.demo-week-arrow{margin-left:auto;color:var(--accent);font-size:1.1rem;}
+
+/* ── BENEFITS ── */
+.benefits{padding:6rem 2rem;text-align:center;}
+.benefits-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1.5rem;max-width:900px;margin:3rem auto 0;
+}
+.benefit-card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:.6rem;padding:2rem 1.5rem;
+  position:relative;overflow:hidden;
+  transition:transform .2s,box-shadow .2s;
+}
+.benefit-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(212,98,42,.06) 0%,transparent 60%);
+}
+.benefit-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,.4);}
+.benefit-icon{font-size:2rem;margin-bottom:1rem;}
+.benefit-card h3{font-size:.95rem;font-weight:600;color:var(--white);margin-bottom:.5rem;}
+.benefit-card p{font-size:.84rem;line-height:1.65;color:var(--muted);}
+
+/* ── SOCIAL PROOF ── */
+.proof{
+  padding:6rem 2rem;
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  text-align:center;
+}
+.stats-row{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:0;
+  max-width:700px;margin:3rem auto;
+  border:1px solid var(--line);border-radius:.8rem;overflow:hidden;
+}
+.stat{
+  flex:1;min-width:140px;padding:2.5rem 2rem;
+  border-right:1px solid var(--line);
+  transition:background .2s;
+}
+.stat:last-child{border-right:none;}
+.stat:hover{background:var(--card);}
+.stat-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:3.2rem;color:var(--accent);
+  letter-spacing:.04em;
+}
+.stat-label{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:.3rem;}
+.quote-box{
+  max-width:560px;margin:0 auto;
+  background:var(--card);border:1px solid var(--line);
+  border-radius:.8rem;padding:2.5rem;
+  position:relative;
+}
+.quote-box::before{
+  content:'"';
+  position:absolute;top:-.5rem;left:1.5rem;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:5rem;color:var(--accent);opacity:.3;
+  line-height:1;
+}
+.quote-text{font-size:1rem;line-height:1.8;color:var(--white);font-style:italic;margin-bottom:1.2rem;}
+.quote-author{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+
+/* ── FINAL CTA ── */
+.final-cta{
+  padding:8rem 2rem;text-align:center;
+  position:relative;overflow:hidden;
+}
+.final-cta::before{
+  content:'';
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:600px;height:400px;
+  background:radial-gradient(ellipse,rgba(212,98,42,.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.final-cta .section-title{margin-bottom:.8rem;}
+.final-cta .section-title .stroke{
+  -webkit-text-stroke:2px var(--accent);
+  color:transparent;
+}
+.urgency{
+  font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent2);margin-top:1.5rem;
+}
+.urgency span{
+  display:inline-block;background:rgba(212,98,42,.15);
+  border:1px solid rgba(212,98,42,.3);
+  padding:.3rem .9rem;border-radius:2rem;
+}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--line);
+  padding:2.5rem 2rem;
+  text-align:center;
+  font-size:.78rem;color:var(--muted);letter-spacing:.06em;
+}
+footer strong{color:var(--accent2);}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* scroll-triggered fade */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:600px){
+  nav{padding:1rem 1.2rem;}
+  .stats-row{flex-direction:column;}
+  .stat{border-right:none;border-bottom:1px solid var(--line);}
+  .stat:last-child{border-bottom:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Katzen<span>baum</span></div>
+  <div class="nav-badge">Schulprojekt 2026</div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <p class="hero-eyebrow">Handwerk &nbsp;·&nbsp; Design &nbsp;·&nbsp; Katze</p>
+  <h1 class="hero-title">
+    DER<br>
+    <span class="accent">KATZEN</span><br>
+    <span class="stroke">BAUM</span>
+  </h1>
+
+  <!-- ANIMATED CAT TREE -->
+  <div class="cattree-hero">
+    <svg viewBox="0 0 340 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- glow effect on trunk -->
+      <ellipse cx="170" cy="500" rx="80" ry="12" fill="rgba(212,98,42,0.15)"/>
+      <!-- base -->
+      <rect x="78" y="462" width="184" height="32" rx="9" fill="#3a2518"/>
+      <rect x="98" y="450" width="144" height="18" rx="6" fill="#4e3020"/>
+      <!-- trunk -->
+      <rect x="146" y="138" width="48" height="318" rx="11" fill="#3a2518"/>
+      <!-- sisal lines warm glow -->
+      <g stroke="#a07840" stroke-width="1.8" stroke-dasharray="5 4" opacity="0.6">
+        <line x1="149" y1="156" x2="191" y2="156"/><line x1="149" y1="170" x2="191" y2="170"/>
+        <line x1="149" y1="184" x2="191" y2="184"/><line x1="149" y1="198" x2="191" y2="198"/>
+        <line x1="149" y1="212" x2="191" y2="212"/><line x1="149" y1="226" x2="191" y2="226"/>
+        <line x1="149" y1="240" x2="191" y2="240"/><line x1="149" y1="254" x2="191" y2="254"/>
+        <line x1="149" y1="268" x2="191" y2="268"/><line x1="149" y1="282" x2="191" y2="282"/>
+        <line x1="149" y1="296" x2="191" y2="296"/><line x1="149" y1="310" x2="191" y2="310"/>
+        <line x1="149" y1="324" x2="191" y2="324"/><line x1="149" y1="338" x2="191" y2="338"/>
+        <line x1="149" y1="352" x2="191" y2="352"/><line x1="149" y1="366" x2="191" y2="366"/>
+        <line x1="149" y1="380" x2="191" y2="380"/><line x1="149" y1="394" x2="191" y2="394"/>
+        <line x1="149" y1="408" x2="191" y2="408"/><line x1="149" y1="422" x2="191" y2="422"/>
+        <line x1="149" y1="436" x2="191" y2="436"/>
+      </g>
+      <!-- mid platform -->
+      <rect x="58" y="306" width="224" height="22" rx="8" fill="#4e3020"/>
+      <rect x="64" y="318" width="212" height="12" rx="5" fill="#6a4530" opacity="0.5"/>
+      <!-- top platform -->
+      <rect x="80" y="106" width="180" height="36" rx="8" fill="#4e3020"/>
+      <rect x="86" y="118" width="168" height="14" rx="5" fill="#6a4530" opacity="0.5"/>
+      <!-- plush bed -->
+      <ellipse cx="170" cy="102" rx="66" ry="17" fill="#8a5a2a" opacity="0.9"/>
+      <ellipse cx="170" cy="96" rx="54" ry="11" fill="#b07840"/>
+      <!-- cat body + head -->
+      <g class="cat-group">
+        <ellipse cx="170" cy="80" rx="26" ry="20" fill="#2a1e14"/>
+        <circle cx="170" cy="52" r="22" fill="#2a1e14"/>
+        <!-- ears -->
+        <polygon points="156,38 147,18 167,38" fill="#2a1e14"/>
+        <polygon points="184,38 193,18 173,38" fill="#2a1e14"/>
+        <polygon points="157,38 150,22 166,38" fill="#7a4a2a" opacity="0.7"/>
+        <polygon points="183,38 190,22 174,38" fill="#7a4a2a" opacity="0.7"/>
+        <!-- eyes -->
+        <ellipse cx="161" cy="53" rx="5" ry="6" fill="#f0e8d8"/>
+        <ellipse cx="179" cy="53" rx="5" ry="6" fill="#f0e8d8"/>
+        <!-- accent glow in eyes -->
+        <ellipse cx="161" cy="53" rx="2.5" ry="2" fill="#d4622a" opacity="0.5"/>
+        <ellipse cx="179" cy="53" rx="2.5" ry="2" fill="#d4622a" opacity="0.5"/>
+        <ellipse class="cat-pupil-l" cx="161" cy="54" rx="2.5" ry="3.5" fill="#0a0a08"/>
+        <ellipse class="cat-pupil-r" cx="179" cy="54" rx="2.5" ry="3.5" fill="#0a0a08"/>
+        <!-- whiskers -->
+        <line x1="144" y1="59" x2="159" y2="57" stroke="#f0e8d8" stroke-width="1.3" opacity="0.7"/>
+        <line x1="144" y1="63" x2="159" y2="61" stroke="#f0e8d8" stroke-width="1.3" opacity="0.7"/>
+        <line x1="196" y1="59" x2="181" y2="57" stroke="#f0e8d8" stroke-width="1.3" opacity="0.7"/>
+        <line x1="196" y1="63" x2="181" y2="61" stroke="#f0e8d8" stroke-width="1.3" opacity="0.7"/>
+        <!-- nose -->
+        <ellipse cx="170" cy="61" rx="2.5" ry="1.8" fill="#d47060"/>
+        <!-- tail -->
+        <path class="cat-tail" d="M196 86 Q238 62 230 104 Q222 130 200 116" stroke="#2a1e14" stroke-width="10" fill="none" stroke-linecap="round"/>
+      </g>
+      <!-- hanging toy left -->
+      <g class="toy-l">
+        <line x1="100" y1="306" x2="86" y2="376" stroke="#5a4a38" stroke-width="1.8" stroke-dasharray="5 4"/>
+        <circle cx="86" cy="388" r="13" fill="#2a4a20"/>
+        <circle cx="86" cy="388" r="8" fill="#4a7a40"/>
+        <circle cx="86" cy="388" r="3.5" fill="#2a4a20"/>
+      </g>
+      <!-- hanging toy right -->
+      <g class="toy-r">
+        <line x1="240" y1="306" x2="254" y2="364" stroke="#5a4a38" stroke-width="1.8" stroke-dasharray="5 4"/>
+        <ellipse cx="254" cy="377" rx="13" ry="10" fill="#8a3018"/>
+        <ellipse cx="254" cy="377" rx="6" ry="5" fill="#d4622a"/>
+      </g>
+      <!-- leaf deco -->
+      <ellipse cx="40" cy="308" rx="30" ry="12" fill="#2a4a20" opacity="0.8" transform="rotate(-28 40 308)"/>
+      <ellipse cx="26" cy="322" rx="20" ry="8" fill="#4a7a40" opacity="0.5" transform="rotate(-16 26 322)"/>
+      <ellipse cx="300" cy="312" rx="28" ry="11" fill="#2a4a20" opacity="0.8" transform="rotate(22 300 312)"/>
+      <ellipse cx="316" cy="326" rx="20" ry="8" fill="#4a7a40" opacity="0.5" transform="rotate(12 316 326)"/>
+      <!-- sparkles -->
+      <g class="sparkle s1">
+        <line x1="44" y1="78" x2="44" y2="66" stroke="#d4622a" stroke-width="2.5"/>
+        <line x1="38" y1="72" x2="50" y2="72" stroke="#d4622a" stroke-width="2.5"/>
+        <line x1="40" y1="68" x2="48" y2="76" stroke="#d4622a" stroke-width="1.8"/>
+        <line x1="48" y1="68" x2="40" y2="76" stroke="#d4622a" stroke-width="1.8"/>
+      </g>
+      <g class="sparkle s2">
+        <line x1="298" y1="116" x2="298" y2="104" stroke="#f0a060" stroke-width="2.5"/>
+        <line x1="292" y1="110" x2="304" y2="110" stroke="#f0a060" stroke-width="2.5"/>
+        <line x1="294" y1="106" x2="302" y2="114" stroke="#f0a060" stroke-width="1.8"/>
+        <line x1="302" y1="106" x2="294" y2="114" stroke="#f0a060" stroke-width="1.8"/>
+      </g>
+      <g class="sparkle s3">
+        <line x1="36" y1="210" x2="36" y2="200" stroke="#7da86e" stroke-width="2"/>
+        <line x1="31" y1="205" x2="41" y2="205" stroke="#7da86e" stroke-width="2"/>
+      </g>
+    </svg>
+    <div class="tree-glow"></div>
+  </div>
+
+  <p class="hero-sub">Ich baue meiner Katze einen Baum — von der Idee bis zum fertigen Produkt. Jede Woche ein neuer Schritt.</p>
+  <div class="hero-cta">
+    <a href="#blog" class="btn btn-primary">Zum Blog →</a>
+    <a href="#was" class="btn btn-ghost">Was ist das?</a>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ══ PROBLEM ══ -->
+<section class="problem" id="was">
+  <div class="reveal">
+    <div class="section-tag">Das Problem</div>
+    <h2 class="section-title">Meine Katze<br>braucht was Besseres</h2>
+    <p style="color:var(--muted);max-width:42ch;margin:0 auto;line-height:1.8;">Die Katzenbäume im Laden sind entweder zu teuer, zu hässlich oder meine Katze mag sie einfach nicht. Also baue ich einen selbst.</p>
+  </div>
+  <div class="problem-grid reveal">
+    <div class="problem-card">
+      <div class="problem-icon">😾</div>
+      <h3>Schlechte Qualität</h3>
+      <p>Gekaufte Katzenbäume wackeln, fallen auseinander oder sehen nach einem Monat schon kaputt aus.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">💸</div>
+      <h3>Hohe Preise</h3>
+      <p>Ein guter Katzenbaum kostet im Laden bis zu CHF 200.– – für etwas, das die Katze vielleicht ignoriert.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">🎨</div>
+      <h3>Schlechtes Design</h3>
+      <p>Die meisten Katzenbäume sind hässlich und passen einfach nicht zum Wohnzimmer.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SOLUTION ══ -->
+<section class="solution" id="loesung">
+  <div class="reveal">
+    <div class="section-tag">Die Lösung</div>
+    <h2 class="section-title">Selbst gebaut<br><span style="color:var(--accent)">Perfekt gemacht</span></h2>
+    <p style="color:var(--muted);max-width:40ch;margin:0 auto;line-height:1.8;">In 6 Wochen baue ich Schritt für Schritt meinen eigenen Katzenbaum – und dokumentiere alles hier.</p>
+  </div>
+  <div class="steps reveal">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-dot"></div>
+      <h3>Planen</h3>
+      <p>Masse, Skizzen und 3D-Modell erstellen. Material und Werkzeuge besorgen.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-dot"></div>
+      <h3>Bauen</h3>
+      <p>Holz sägen, Pfosten mit Sisal wickeln, Etagen montieren. Schritt für Schritt.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-dot"></div>
+      <h3>Fertigstellen</h3>
+      <p>Plüsch aufkleben, Spielzeuge anbringen – und die Katze drauflassen!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DEMO / BLOG PREVIEW ══ -->
+<section class="demo" id="blog">
+  <div class="reveal">
+    <div class="section-tag">Das Blog</div>
+    <h2 class="section-title">Woche für<br><span style="color:var(--accent)">Woche</span></h2>
+    <p style="color:var(--muted);max-width:40ch;margin:0 auto;line-height:1.8;">Jede Woche ein neuer Eintrag – ehrlich, mit Fotos und allen Fehlern die ich gemacht habe.</p>
+  </div>
+  <div class="demo-screen reveal">
+    <div class="demo-topbar">
+      <div class="demo-dot r"></div>
+      <div class="demo-dot y"></div>
+      <div class="demo-dot g"></div>
+      <div class="demo-url">projektkatzenbaum.blog</div>
+    </div>
+    <div class="demo-body">
+      <div class="demo-week-list">
+        <div class="demo-week-item">
+          <div class="demo-week-badge">W1</div>
+          <div class="demo-week-info">
+            <h4>Bestehende Katzenbäume anschauen</h4>
+            <p>Analyse, Inspiration & Eltern überzeugen</p>
+          </div>
+          <div class="demo-week-arrow">→</div>
+        </div>
+        <div class="demo-week-item">
+          <div class="demo-week-badge">W2</div>
+          <div class="demo-week-info">
+            <h4>Standort & Werkzeuge</h4>
+            <p>Wo kommt er hin? Was brauche ich?</p>
+          </div>
+          <div class="demo-week-arrow">→</div>
+        </div>
+        <div class="demo-week-item">
+          <div class="demo-week-badge">W3</div>
+          <div class="demo-week-info">
+            <h4>Der 3D-Bauplan</h4>
+            <p>1.30m hoch, mehrere Ebenen, stabil</p>
+          </div>
+          <div class="demo-week-arrow">→</div>
+        </div>
+        <div class="demo-week-item" style="opacity:.35;pointer-events:none;">
+          <div class="demo-week-badge" style="color:var(--muted)">W4</div>
+          <div class="demo-week-info">
+            <h4 style="color:var(--muted)">Kommt bald...</h4>
+            <p>Nächste Woche</p>
+          </div>
+          <div class="demo-week-arrow" style="color:var(--muted)">→</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BENEFITS ══ -->
+<section class="benefits">
+  <div class="reveal">
+    <div class="section-tag">Warum dieses Projekt?</div>
+    <h2 class="section-title">Was ich<br><span style="color:var(--accent)">lerne</span></h2>
+  </div>
+  <div class="benefits-grid reveal">
+    <div class="benefit-card">
+      <div class="benefit-icon">🔨</div>
+      <h3>Handwerk</h3>
+      <p>Sägen, bohren, schrauben – echte Werkzeuge, echte Fähigkeiten.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">📐</div>
+      <h3>Planung</h3>
+      <p>Masse berechnen, Skizzen machen, 3D-Modell erstellen.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">💰</div>
+      <h3>Budget</h3>
+      <p>Mit CHF 70.– mehr erreichen als ein Laden-Katzenbaum für CHF 200.–.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">✍️</div>
+      <h3>Dokumentation</h3>
+      <p>Wöchentliche Blog-Einträge – mit Fotos, Fehlern und Lösungen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SOCIAL PROOF ══ -->
+<section class="proof">
+  <div class="reveal">
+    <div class="section-tag">Das Projekt in Zahlen</div>
+    <h2 class="section-title">Bisher<br><span style="color:var(--accent)">geschafft</span></h2>
+  </div>
+  <div class="stats-row reveal">
+    <div class="stat">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Wochen</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">130<span style="font-size:1.8rem">cm</span></div>
+      <div class="stat-label">Geplante Höhe</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">CHF 70</div>
+      <div class="stat-label">Budget</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Glückliche Katze</div>
+    </div>
+  </div>
+  <div class="quote-box reveal">
+    <p class="quote-text">Ich habe dieses Projekt gewählt, weil meine Katze noch einen Katzenbaum braucht, den sie wirklich gerne hat. Bis jetzt mag sie keinen der gekauften.</p>
+    <p class="quote-author">— Aus dem Meilenstein 1</p>
+  </div>
+</section>
+
+<!-- ══ FINAL CTA ══ -->
+<section class="final-cta">
+  <div class="reveal">
+    <div class="section-tag">Folg dem Projekt</div>
+    <h2 class="section-title">
+      LIES<br>
+      <span class="accent">DEN</span><br>
+      <span class="stroke">BLOG</span>
+    </h2>
+    <p style="color:var(--muted);max-width:36ch;margin:1.5rem auto;line-height:1.8;">Jede Woche ein neuer Eintrag. Sieh wie aus einer Idee ein echter Katzenbaum wird.</p>
+    <div class="hero-cta" style="opacity:1;animation:none;">
+      <a href="https://projektkatzenbaum6.wordpress.com" target="_blank" class="btn btn-primary">Blog besuchen →</a>
+    </div>
+    <p class="urgency"><span>🐱 Milo wartet auf ihren neuen Baum</span></p>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Katzenbaum</strong> &nbsp;·&nbsp; Schulprojekt 2026 &nbsp;·&nbsp; Handwerk & Design</p>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      // stagger children
+      e.target.querySelectorAll('.problem-card,.step,.benefit-card,.stat,.demo-week-item').forEach((el,i) => {
+        el.style.transitionDelay = (i * 0.1) + 's';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      });
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => {
+  // also animate inner cards
+  el.querySelectorAll('.problem-card,.step,.benefit-card,.stat,.demo-week-item').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = 'opacity .6s, transform .6s';
+  });
+  observer.observe(el);
+});
+</script>
+</body>
+</html>

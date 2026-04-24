@@ -434,11 +434,12 @@ footer strong{color:var(--accent2);}
       <div class="milestone-status done">&#10003; Abgeschlossen</div>
     </div>
 
-    <div class="milestone-card locked">
+    <div class="milestone-card" onclick="showMilestone(1)">
       <div class="milestone-num">02</div>
-      <h3>Meilenstein 2</h3>
-      <p>Kommt bald – dieser Meilenstein wird noch veröffentlicht.</p>
-      <div class="milestone-status soon">&#8230; Ausstehend</div>
+      <span class="milestone-arrow">&rarr;</span>
+      <h3>Halbzeit – Katzenbaum im Bau</h3>
+      <p>Der Katzenbaum ist zur Hälfte fertig und das Sisal für den nächsten Schritt ist schon gekauft.</p>
+      <div class="milestone-status done">&#10003; Abgeschlossen</div>
     </div>
 
     <div class="milestone-card locked">
@@ -499,6 +500,32 @@ var milestones = [
       + '<h2>DAS ZIEL</h2>'
       + '<p>Das Ziel ist, einen Katzenbaum zu bauen, den meine Katze gerne hat.</p>'
       + '<p>Wenn ich noch Zeit habe, werde ich auch Spielzeuge dran bauen, die ihr hoffentlich auch gefallen.</p>'
+      + '</div>'
+  },
+  {
+    num: "02",
+    title: "HALBZEIT",
+    subtitle: "Meilenstein 2 – Der Katzenbaum ist halb fertig",
+    body: '<div class="post-body-dark">'
+      + '<p>In diesem Meilenstein kann ich stolz sagen: Der Katzenbaum ist zur Hälfte fertig! Die Grundstruktur steht – der Pfosten ist aufgestellt, die Grundplatte ist befestigt und die erste Ebene ist montiert.</p>'
+      + '<h2>WAS BEREITS FERTIG IST</h2>'
+      + '<ul>'
+      + '<li>Grundplatte zugeschnitten und geschliffen</li>'
+      + '<li>Pfosten aufgestellt und fest verschraubt</li>'
+      + '<li>Erste Plattform-Ebene montiert</li>'
+      + '<li>Grundstruktur steht stabil</li>'
+      + '</ul>'
+      + '<h2>DAS SISAL IST GEKAUFT</h2>'
+      + '<p>Für den nächsten grossen Schritt habe ich bereits das Sisalseil gekauft. Das Seil wird eng um den Pfosten gewickelt – das ist der Teil, an dem die Katze kratzen kann. Ich habe ca. 50 Meter Sisal besorgt, was hoffentlich reicht um den ganzen Pfosten zu bedecken.</p>'
+      + '<blockquote>«Der schwerste Teil war das Aufstellen des Pfostens – er musste genau gerade stehen. Mit der Wasserwaage hat es beim zweiten Versuch geklappt.»</blockquote>'
+      + '<h2>WAS ALS NÄCHSTES KOMMT</h2>'
+      + '<ul>'
+      + '<li>Sisal um den Pfosten wickeln</li>'
+      + '<li>Zweite und dritte Plattform montieren</li>'
+      + '<li>Plüsch auf die Liegeflächen kleben</li>'
+      + '<li>Spielzeuge anbringen</li>'
+      + '</ul>'
+      + '<p>Ich bin gespannt wie meine Katze reagiert, wenn der Baum fertig ist – und ob sie ihn diesmal auch wirklich benutzt!</p>'
       + '</div>'
   }
 ];

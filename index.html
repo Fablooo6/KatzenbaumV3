@@ -112,6 +112,35 @@ section{position:relative;z-index:1;}
 .demo-week-arrow{margin-left:auto;color:var(--accent);font-size:1.1rem;transition:transform .2s;}
 .demo-week-item:hover .demo-week-arrow{transform:translateX(4px);}
 
+
+/* MILESTONES */
+.milestones{padding:6rem 2rem;background:var(--bg3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center;}
+.milestone-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;max-width:900px;margin:3rem auto 0;}
+.milestone-card{
+  background:var(--card);border:1px solid var(--line);border-radius:.7rem;
+  padding:1.8rem;text-align:left;cursor:pointer;
+  transition:border-color .2s,background .2s,transform .15s;
+  position:relative;overflow:hidden;
+}
+.milestone-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,98,42,.07) 0%,transparent 60%);}
+.milestone-card:hover{border-color:rgba(212,98,42,.5);background:#252218;transform:translateY(-4px);}
+.milestone-card.locked{opacity:.35;pointer-events:none;cursor:default;}
+.milestone-num{
+  font-family:'Bebas Neue',sans-serif;font-size:3.5rem;
+  color:rgba(212,98,42,.2);line-height:1;margin-bottom:.6rem;
+}
+.milestone-card h3{font-size:1rem;font-weight:600;color:var(--white);margin-bottom:.5rem;}
+.milestone-card p{font-size:.85rem;line-height:1.65;color:var(--muted);}
+.milestone-status{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  margin-top:1rem;
+}
+.milestone-status.done{color:#4a7a40;}
+.milestone-status.soon{color:var(--muted);}
+.milestone-arrow{float:right;color:var(--accent);font-size:1.1rem;margin-top:.2rem;transition:transform .2s;}
+.milestone-card:hover .milestone-arrow{transform:translateX(4px);}
+
 /* BENEFITS */
 .benefits{padding:6rem 2rem;text-align:center;}
 .benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;max-width:900px;margin:3rem auto 0;}
@@ -387,6 +416,41 @@ footer strong{color:var(--accent2);}
   </div>
 </section>
 
+
+<!-- MILESTONES -->
+<section class="milestones" id="meilensteine">
+  <div class="reveal">
+    <div class="section-tag">Projektfortschritt</div>
+    <h2 class="section-title">Meilen<br><span style="color:var(--accent)">steine</span></h2>
+    <p style="color:var(--muted);max-width:42ch;margin:0 auto;line-height:1.8;">Wichtige Etappen im Projekt – klick drauf um die Details zu lesen.</p>
+  </div>
+  <div class="milestone-grid reveal">
+
+    <div class="milestone-card" onclick="showMilestone(0)">
+      <div class="milestone-num">01</div>
+      <span class="milestone-arrow">&rarr;</span>
+      <h3>Projektidee &amp; Ziel</h3>
+      <p>Warum baue ich einen Katzenbaum? Ziel, Motivation und erste Überlegungen.</p>
+      <div class="milestone-status done">&#10003; Abgeschlossen</div>
+    </div>
+
+    <div class="milestone-card locked">
+      <div class="milestone-num">02</div>
+      <h3>Meilenstein 2</h3>
+      <p>Kommt bald – dieser Meilenstein wird noch veröffentlicht.</p>
+      <div class="milestone-status soon">&#8230; Ausstehend</div>
+    </div>
+
+    <div class="milestone-card locked">
+      <div class="milestone-num">03</div>
+      <h3>Meilenstein 3</h3>
+      <p>Kommt bald – dieser Meilenstein wird noch veröffentlicht.</p>
+      <div class="milestone-status soon">&#8230; Ausstehend</div>
+    </div>
+
+  </div>
+</section>
+
 <!-- FINAL CTA -->
 <section class="final-cta">
   <div class="reveal">
@@ -413,7 +477,43 @@ footer strong{color:var(--accent2);}
   <footer><p><strong>Katzenbaum</strong> &nbsp;&middot;&nbsp; Schulprojekt 2026</p></footer>
 </div>
 
+
+<!-- ══════════ MILESTONE VIEW ══════════ -->
+<div class="view" id="view-milestone">
+  <div class="post-view-wrap">
+    <button class="post-back-btn" onclick="showView('landing')">&larr; Zurück</button>
+    <div id="milestone-content"></div>
+  </div>
+  <footer><p><strong>Katzenbaum</strong> &nbsp;&middot;&nbsp; Schulprojekt 2026</p></footer>
+</div>
+
 <script>
+
+var milestones = [
+  {
+    num: "01",
+    title: "PROJEKTIDEE &amp; ZIEL",
+    subtitle: "Meilenstein 1 – Warum ein Katzenbaum?",
+    body: '<div class="post-body-dark">'
+      + '<p>Ich habe dieses Projekt gewählt, weil ich eine Katze habe und sie noch einen Katzenbaum braucht, den sie wirklich gerne hat. Bis jetzt hat sie nur Katzenbäume, die ihr nicht gefallen.</p>'
+      + '<h2>DAS ZIEL</h2>'
+      + '<p>Das Ziel ist, einen Katzenbaum zu bauen, den meine Katze gerne hat.</p>'
+      + '<p>Wenn ich noch Zeit habe, werde ich auch Spielzeuge dran bauen, die ihr hoffentlich auch gefallen.</p>'
+      + '</div>'
+  }
+];
+
+function showMilestone(i) {
+  var m = milestones[i];
+  document.getElementById('milestone-content').innerHTML =
+    '<p class="post-week-tag">Meilenstein ' + m.num + '</p>'
+    + '<h1>' + m.title + '</h1>'
+    + '<p style="color:var(--muted);font-size:1.05rem;margin-bottom:2rem;">' + m.subtitle + '</p>'
+    + '<div class="post-divider"></div>'
+    + m.body;
+  showView('milestone');
+}
+
 var posts = [
   {
     week: "1. Woche",
